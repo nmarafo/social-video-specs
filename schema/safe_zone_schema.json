@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SafeZoneSpecOKF",
+  "description": "Esquema formal OKF para definir zonas seguras y áreas de colisión de interfaz de usuario (UI) en vídeo.",
+  "type": "object",
+  "required": [
+    "id",
+    "plataforma",
+    "resolucion_base",
+    "margenes",
+    "elementos_ui"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^sz-[a-z0-9_-]+$"
+    },
+    "plataforma": { "type": "string" },
+    "resolucion_base": {
+      "type": "object",
+      "required": ["ancho", "alto"],
+      "properties": {
+        "ancho": { "type": "integer" },
+        "alto": { "type": "integer" }
+      }
+    },
+    "margenes": {
+      "type": "object",
+      "required": ["top", "bottom", "left", "right"],
+      "properties": {
+        "top": {
+          "type": "object",
+          "required": ["px", "porcentaje"],
+          "properties": { "px": { "type": "integer" }, "porcentaje": { "type": "number" } }
+        },
+        "bottom": {
+          "type": "object",
+          "required": ["px", "porcentaje"],
+          "properties": { "px": { "type": "integer" }, "porcentaje": { "type": "number" } }
+        },
+        "left": {
+          "type": "object",
+          "required": ["px", "porcentaje"],
+          "properties": { "px": { "type": "integer" }, "porcentaje": { "type": "number" } }
+        },
+        "right": {
+          "type": "object",
+          "required": ["px", "porcentaje"],
+          "properties": { "px": { "type": "integer" }, "porcentaje": { "type": "number" } }
+        }
+      }
+    },
+    "elementos_ui": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["nombre", "posicion", "descripcion"],
+        "properties": {
+          "nombre": { "type": "string" },
+          "posicion": { "type": "string", "enum": ["arriba", "abajo", "derecha", "izquierda", "centro"] },
+          "bounding_box_estimado_px": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "integer" },
+              "y": { "type": "integer" },
+              "ancho": { "type": "integer" },
+              "alto": { "type": "integer" }
+            }
+          },
+          "descripcion": { "type": "string" }
+        }
+      }
+    },
+    "recorte_perfil_grid": {
+      "type": "object",
+      "properties": {
+        "activo": { "type": "boolean" },
+        "relacion_aspecto": { "type": "string" },
+        "coordenadas_px": {
+          "type": "object",
+          "properties": {
+            "top": { "type": "integer" },
+            "bottom": { "type": "integer" },
+            "ancho": { "type": "integer" },
+            "alto": { "type": "integer" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+
+# Editores y entornos
+.vscode/
+.idea/
+*.swp
+*~
+
+# Archivos de caché y logs
+*.log
+.cache/
+
+# Archivos temporales de vídeo y renders
+*.mov
+*.mp4
+*.mkv
+*.avi
+*.prproj
+*.drp
+*.fcpbundle
+*.autosave
+RenderData/
+CacheClip/
+ProxyMedia/
+.fcpcache/

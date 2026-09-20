@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "social-video-specs",
+  "title": "Open Knowledge Framework - Especificaciones de Vídeo para Redes Sociales",
+  "version": "1.3.0",
+  "okf_specification": "v1.3",
+  "description": "Base de conocimiento estructurada y abierta basada en el estándar Open Knowledge Framework (OKF) con todas las especificaciones técnicas, zonas seguras, sonoridad LUFS, códecs y perfiles de exportación para optimizar la edición y publicación de vídeo en redes sociales.",
+  "author": {
+    "name": "Norberto Martín Afonso",
+    "github": "https://github.com/nmarafo",
+    "handle": "@nmarafo"
+  },
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/deed.es",
+  "repository": "https://github.com/nmarafo/social-video-specs",
+  "schemas": [
+    {
+      "id": "schema-video-spec",
+      "path": "schema/social_video_spec_schema.json",
+      "description": "Esquema formal para especificaciones técnicas de vídeo por plataforma."
+    },
+    {
+      "id": "schema-safe-zone",
+      "path": "schema/safe_zone_schema.json",
+      "description": "Esquema formal para zonas seguras y áreas de interfaz de usuario."
+    },
+    {
+      "id": "schema-export-preset",
+      "path": "schema/export_preset_schema.json",
+      "description": "Esquema formal para perfiles de exportación y recetas de transcodificación."
+    }
+  ],
+  "plataformas": [
+    {
+      "id": "youtube",
+      "nombre": "YouTube",
+      "path": "plataformas/youtube/",
+      "formatos": ["long_form_16_9", "shorts_9_16", "miniaturas_thumbnails"]
+    },
+    {
+      "id": "instagram",
+      "nombre": "Instagram",
+      "path": "plataformas/instagram/",
+      "formatos": ["reels_9_16", "stories_9_16", "feed_posts"]
+    },
+    {
+      "id": "tiktok",
+      "nombre": "TikTok",
+      "path": "plataformas/tiktok/",
+      "formatos": ["feed_9_16", "horizontal_16_9"]
+    },
+    {
+      "id": "facebook",
+      "nombre": "Facebook",
+      "path": "plataformas/facebook/",
+      "formatos": ["reels_stories", "feed_video"]
+    },
+    {
+      "id": "x_twitter",
+      "nombre": "X (Twitter)",
+      "path": "plataformas/x_twitter/",
+      "formatos": ["video_feed"]
+    },
+    {
+      "id": "linkedin",
+      "nombre": "LinkedIn",
+      "path": "plataformas/linkedin/",
+      "formatos": ["video_feed"]
+    },
+    {
+      "id": "twitch_kick",
+      "nombre": "Twitch & Kick",
+      "path": "plataformas/twitch_kick/",
+      "formatos": ["clips_vods"]
+    },
+    {
+      "id": "pinterest",
+      "nombre": "Pinterest",
+      "path": "plataformas/pinterest/",
+      "formatos": ["video_pins"]
+    }
+  ],
+  "estandares": [
+    { "id": "std-arquitectura-okf", "path": "estandares/arquitectura_okf.md" },
+    { "id": "std-codificacion", "path": "estandares/codificacion_y_codecs.md" },
+    { "id": "std-audio-lufs", "path": "estandares/audio_lufs_y_masterizacion.md" },
+    { "id": "std-zonas-seguras", "path": "estandares/zonas_seguras_y_composicion.md" },
+    { "id": "std-subtitulado", "path": "estandares/subtitulado_y_accesibilidad.md" },
+    { "id": "std-checklist-qa", "path": "estandares/checklist_qa_pre_publicacion.md" }
+  ],
+  "presets": [
+    { "id": "preset-ffmpeg", "path": "presets/ffmpeg/recetas_ffmpeg.md" },
+    { "id": "preset-davinci", "path": "presets/davinci_resolve/guia_exportacion_davinci.md" },
+    { "id": "preset-premiere", "path": "presets/premiere_pro/guia_exportacion_premiere.md" }
+  ],
+  "prompts": [
+    { "id": "prompt-maestro", "path": "plantillas/prompts/prompt_maestro_editor_video_rrss.md" },
+    { "id": "prompt-01-analisis", "path": "plantillas/prompts/prompt_01_analisis_formato_plataforma.md" },
+    { "id": "prompt-02-ritmo", "path": "plantillas/prompts/prompt_02_ritmo_y_storyboarding.md" },
+    { "id": "prompt-03-subtitulos", "path": "plantillas/prompts/prompt_03_generacion_subtitulos_safe_zones.md" },
+    { "id": "prompt-04-qa", "path": "plantillas/prompts/prompt_04_control_calidad_qa.md" }
+  ],
+  "herramientas": [
+    {
+      "id": "tool-calculadora-video",
+      "nombre": "Calculadora & Inspector Visual de Vídeo para RRSS",
+      "path": "herramientas/calculadora_video_rrss.html",
+      "tipo": "html_autocontenido",
+      "descripcion": "Herramienta web interactiva y local sin dependencias de servidor para previsualizar zonas seguras, calcular bitrates, generar comandos FFmpeg e inspeccionar especificaciones."
+    }
+  ]
+}

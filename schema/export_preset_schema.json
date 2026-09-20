@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExportPresetOKF",
+  "description": "Esquema formal OKF para perfiles y recetas de codificación y exportación audiovisual.",
+  "type": "object",
+  "required": [
+    "id",
+    "nombre",
+    "software_o_motor",
+    "plataforma_objetivo",
+    "parametros_video",
+    "parametros_audio"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^preset-[a-z0-9_-]+$"
+    },
+    "nombre": { "type": "string" },
+    "software_o_motor": {
+      "type": "string",
+      "enum": ["ffmpeg", "davinci_resolve", "premiere_pro", "final_cut_pro", "capcut"]
+    },
+    "plataforma_objetivo": { "type": "string" },
+    "parametros_video": {
+      "type": "object",
+      "required": ["codec", "resolucion", "control_tasa"],
+      "properties": {
+        "codec": { "type": "string" },
+        "perfil": { "type": "string" },
+        "nivel": { "type": "string" },
+        "resolucion": { "type": "string" },
+        "control_tasa": { "type": "string" },
+        "bitrate_target_kbps": { "type": "integer" },
+        "bitrate_max_kbps": { "type": "integer" },
+        "crf": { "type": "integer" },
+        "pix_fmt": { "type": "string" },
+        "faststart": { "type": "boolean" }
+      }
+    },
+    "parametros_audio": {
+      "type": "object",
+      "required": ["codec", "bitrate_kbps", "sample_rate_hz"],
+      "properties": {
+        "codec": { "type": "string" },
+        "bitrate_kbps": { "type": "integer" },
+        "sample_rate_hz": { "type": "integer" },
+        "filtro_loudness": { "type": "string" }
+      }
+    },
+    "comando_o_pasos": {
+      "type": "string",
+      "description": "Comando FFmpeg listo para ejecutar o pasos guiados para el software NLE."
+    }
+  }
+}

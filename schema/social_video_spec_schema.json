@@ -1,0 +1,217 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SocialVideoSpecOKF",
+  "description": "Esquema formal OKF para la especificación técnica de formatos de vídeo para redes sociales.",
+  "type": "object",
+  "required": [
+    "id",
+    "plataforma",
+    "formato",
+    "relacion_aspecto",
+    "resolucion",
+    "fps",
+    "video",
+    "audio",
+    "limites",
+    "zonas_seguras"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^spec-[a-z0-9_-]+$",
+      "description": "Identificador único canónico de la especificación (ej. spec-yt-shorts)."
+    },
+    "plataforma": {
+      "type": "string",
+      "enum": [
+        "youtube",
+        "instagram",
+        "tiktok",
+        "facebook",
+        "x_twitter",
+        "linkedin",
+        "twitch_kick",
+        "pinterest"
+      ]
+    },
+    "formato": {
+      "type": "string",
+      "description": "Nombre específico del formato dentro de la plataforma (ej. shorts, reels, long_form, feed)."
+    },
+    "orientacion": {
+      "type": "string",
+      "enum": ["vertical", "horizontal", "cuadrado"]
+    },
+    "relacion_aspecto": {
+      "type": "string",
+      "pattern": "^[0-9]+:[0-9]+$",
+      "description": "Relación de aspecto estándar (ej. 16:9, 9:16, 1:1, 4:5, 2:3)."
+    },
+    "resolucion": {
+      "type": "object",
+      "required": ["ancho", "alto", "unidad"],
+      "properties": {
+        "ancho": { "type": "integer", "minimum": 1 },
+        "alto": { "type": "integer", "minimum": 1 },
+        "unidad": { "type": "string", "enum": ["px"] },
+        "alternativas_aceptadas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["ancho", "alto", "nombre"],
+            "properties": {
+              "ancho": { "type": "integer" },
+              "alto": { "type": "integer" },
+              "nombre": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "fps": {
+      "type": "object",
+      "required": ["recomendados", "permitidos"],
+      "properties": {
+        "recomendados": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "permitidos": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "tipo_escaneo": {
+          "type": "string",
+          "enum": ["progresivo"]
+        }
+      }
+    },
+    "video": {
+      "type": "object",
+      "required": [
+        "contenedor",
+        "codecs_recomendados",
+        "perfil_h264",
+        "espacio_color",
+        "submuestreo_croma",
+        "bitrate_mbps"
+      ],
+      "properties": {
+        "contenedor": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "codecs_recomendados": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "perfil_h264": {
+          "type": "string",
+          "enum": ["High", "Main", "Baseline"]
+        },
+        "espacio_color": {
+          "type": "string",
+          "description": "Estándar de color (ej. Rec.709, Rec.2020 para HDR, sRGB)."
+        },
+        "submuestreo_croma": {
+          "type": "string",
+          "enum": ["4:2:0", "4:2:2", "4:4:4"]
+        },
+        "bitrate_mbps": {
+          "type": "object",
+          "required": ["minimo", "target", "maximo"],
+          "properties": {
+            "minimo": { "type": "number" },
+            "target": { "type": "number" },
+            "maximo": { "type": "number" },
+            "modo_control": {
+              "type": "string",
+              "enum": ["VBR_1Pass", "VBR_2Pass", "CBR", "CRF"]
+            }
+          }
+        },
+        "moov_atom_faststart": {
+          "type": "boolean",
+          "description": "Indica si el átomo moov debe situarse al inicio del archivo para streaming inmediato."
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "required": [
+        "codec",
+        "canales",
+        "frecuencia_muestreo_hz",
+        "bitrate_kbps",
+        "lufs_integrado_target",
+        "true_peak_max_dbtp"
+      ],
+      "properties": {
+        "codec": { "type": "string", "enum": ["AAC-LC", "Opus", "PCM", "MP3"] },
+        "canales": { "type": "string", "enum": ["estéreo (2.0)", "mono (1.0)", "5.1"] },
+        "frecuencia_muestreo_hz": { "type": "integer", "enum": [48000, 44100] },
+        "bitrate_kbps": { "type": "integer", "minimum": 64 },
+        "lufs_integrado_target": {
+          "type": "number",
+          "description": "Objetivo de sonoridad integrada en LUFS (ej. -14.0 LUFS)."
+        },
+        "tolerancia_lufs": { "type": "number", "default": 1.0 },
+        "true_peak_max_dbtp": {
+          "type": "number",
+          "description": "Pico máximo absoluto en dBTP para prevenir distorsión inter-sample (ej. -1.0 dBTP)."
+        },
+        "rango_dinamico_sugerido_lu": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "number" },
+            "max": { "type": "number" }
+          }
+        }
+      }
+    },
+    "limites": {
+      "type": "object",
+      "required": ["peso_maximo_mb"],
+      "properties": {
+        "peso_maximo_mb": { "type": "number" },
+        "duracion_minima_seg": { "type": "number" },
+        "duracion_maxima_seg": { "type": "number" },
+        "duracion_recomendada_seg": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "number" },
+            "max": { "type": "number" }
+          }
+        }
+      }
+    },
+    "zonas_seguras": {
+      "type": "object",
+      "required": [
+        "margen_superior_px",
+        "margen_inferior_px",
+        "margen_izquierdo_px",
+        "margen_derecho_px"
+      ],
+      "properties": {
+        "margen_superior_px": { "type": "integer" },
+        "margen_inferior_px": { "type": "integer" },
+        "margen_izquierdo_px": { "type": "integer" },
+        "margen_derecho_px": { "type": "integer" },
+        "zona_critica_ui": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Elementos de UI de la plataforma que colisionan (ej. botón me gusta, nombre de usuario, caja de búsqueda)."
+        },
+        "recortes_cuadricula": {
+          "type": "object",
+          "description": "Recortes que sufre el vídeo en vistas previas o perfiles (ej. 1:1 o 4:5)."
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

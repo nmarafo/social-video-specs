@@ -84,3 +84,38 @@ Extrae un fotograma exacto en alta calidad sin pérdidas en el segundo 2.5:
 ```bash
 ffmpeg -ss 00:00:02.500 -i input.mp4 -vframes 1 -q:v 2 miniatura_fotograma.jpg
 ```
+
+---
+
+## 6. Split-Stack Vertical 9:16 (Pantalla Dividida 100% Pantalla Completa)
+
+Convierte un plano horizontal 16:9 con dos protagonistas (ej. cantante a la derecha y pianista a la izquierda) en un Reel vertical 9:16 dividiendo la pantalla en dos bloques de 1080×960 con línea divisoria estética:
+
+```bash
+ffmpeg -i input_16_9.mp4 -filter_complex \
+"[0:v]scale=3414:1920:flags=lanczos,crop=1080:960:1750:50[top]; \
+ [0:v]scale=3414:1920:flags=lanczos,crop=1080:960:500:500[bot]; \
+ [top][bot]vstack,drawbox=y=959:color=white@0.6:width=1080:height=2:t=fill[v]; \
+ [0:a]loudnorm=I=-14.0:TP=-1.0:LRA=7.0[a]" \
+-map "[v]" -map "[a]" \
+-c:v libx264 -profile:v high -level 4.2 -preset fast -crf 20 -pix_fmt yuv420p \
+-c:a aac -b:a 256k -ar 48000 -movflags +faststart \
+output_split_stack_9_16.mp4
+```
+
+---
+
+## 7. Pan & Scan Dinámico / Travelling Virtual (Zoom a Pantalla Completa 9:16)
+
+Ocupa el 100% de la pantalla vertical 9:16 desplazando la cámara horizontalmente entre el sujeto izquierdo (X=500) y el sujeto derecho (X=1750) de forma cinematográfica suave mediante interpolación temporal matemática:
+
+```bash
+ffmpeg -i input_16_9.mp4 -filter_complex \
+"[0:v]scale=3414:1920:flags=lanczos,crop=w=1080:h=1920:x='if(lt(t,2.5),500,if(lt(t,5.5),500+1250*(t-2.5)/3.0,if(lt(t,20.5),1750,if(lt(t,23.0),1750-1250*(t-20.5)/2.5,if(lt(t,27.5),500,if(lt(t,30.5),500+1250*(t-27.5)/3.0,1750))))))':y=0,unsharp=5:5:0.6:5:5:0.0[v]; \
+ [0:a]loudnorm=I=-14.0:TP=-1.0:LRA=7.0[a]" \
+-map "[v]" -map "[a]" \
+-c:v libx264 -profile:v high -level 4.2 -preset fast -crf 20 -pix_fmt yuv420p \
+-c:a aac -b:a 256k -ar 48000 -movflags +faststart \
+output_pan_dinamico_9_16.mp4
+```
+

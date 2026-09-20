@@ -60,3 +60,42 @@ En el formato vertical, el patrón de lectura visual no es el patrón en "F" o e
    * Permite que el espectador lea el texto y mire el rostro del presentador sin realizar movimientos sacádicos oculares amplios.
 3. **El Área de los Pulgares:**
    * Los primeros 400 px inferiores son la zona natural donde reposan los pulgares del usuario al sostener el teléfono. Nunca sitúes allí información que requiera lectura activa.
+
+---
+
+## 4. Las 4 Técnicas Canónicas de Reencuadre: De Horizontal 16:9 a Vertical 9:16
+
+Cuando se dispone de un metraje original grabado en horizontal (16:9) y se desea optimizar para Reels, TikTok o Shorts, el estándar OKF establece **cuatro estrategias canónicas de reencuadre**:
+
+```text
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ [  FONDO BLUR ] │ │ [  SUJETO A   ] │ │ [ PAN DINÁMICO] │ │ [ MULTI-CÁMARA] │
+│                 │ │  (Cantante / A) │ │                 │ │                 │
+│ ┌─────────────┐ │ ├─────────────────┤ │   Travelling    │ │  Corte a Plano  │
+│ │ VÍDEO 16:9  │ │ [  SUJETO B   ] │ │   Horizontal      │ │  Vertical 9:16  │
+│ └─────────────┘ │ │  (Pianista / B) │ │   de A hacia B  │ │  según la acción│
+│ [  FONDO BLUR ] │ │                 │ │                 │ │                 │
+└─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘
+  1. Letterbox Blur   2. Split-Stack      3. Pan & Scan       4. Multi-Cámara
+```
+
+### Opción 1: Letterbox Blur (Fondo Difuminado Ambiental)
+* **Cómo funciona:** El vídeo 16:9 se escala al ancho total (1080 px) y se centra verticalmente. La parte superior e inferior se cubre con un fondo generado a partir del propio vídeo con desenfoque gaussiano y leve atenuación de brillo.
+* **Ventajas:** Preserva el 100% del encuadre original sin cortar a ningún protagonista. Los elementos quedan exactamente dentro de la zona segura de perfil 1:1 y feed 4:5.
+* **Uso ideal:** Actuaciones grupales, paisajes y planos generales complejos.
+
+### Opción 2: Split-Stack Vertical (Pantalla Dividida 100% Pantalla Completa)
+* **Cómo funciona:** El lienzo 9:16 se divide en dos bloques verticales de 1080×960 px. El protagonista A (ej. cantante o entrevistado) se encuadra en la mitad superior y el protagonista B (ej. pianista o entrevistador) en la mitad inferior con una fina línea divisoria.
+* **Ventajas:** **Ocupa el 100% de la pantalla del smartphone** sin barras negras ni desenfoques. Ambos artistas permanecen visibles simultáneamente en primer plano.
+* **Uso ideal:** Dúos musicales (voz + instrumento), podcasts con dos interlocutores, reacciones en directo o tutoriales con pantalla y webcam.
+
+### Opción 3: Pan & Scan Dinámico / Travelling Virtual (Zoom a Pantalla Completa)
+* **Cómo funciona:** Se amplía el metraje para que la altura ocupe los 1920 px completos y una "cámara virtual" se desplaza suavemente de izquierda a derecha (o viceversa) siguiendo al protagonista activo en cada compás o frase.
+* **Ventajas:** Sensación cinematográfica de cámara en movimiento continuo (*steadicam* / *slider*) llenando toda la pantalla vertical.
+* **Uso ideal:** Vídeos con ritmo fluido donde el foco cambia gradualmente entre dos puntos de interés.
+
+### Opción 4: Multi-Cámara Virtual Inteligente
+* **Cómo funciona:** Se extraen planos verticales independientes de cada sujeto y se monta una secuencia con cortes directos en función de los compases musicales o la voz.
+* **Ventajas:** Da la apariencia de una producción rodada con múltiples cámaras de televisión verticales de alta gama.
+* **Uso ideal:** Vídeos musicales de alta energía, debates rápidos o videoclips.
+

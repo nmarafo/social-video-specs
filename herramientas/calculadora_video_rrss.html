@@ -382,18 +382,26 @@
           <p class="text-sm text-slate-400 mt-1">Comandos de producción listos para copiar y ejecutar en tu terminal (PowerShell, Bash o Zsh).</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button onclick="generarComandoFFmpeg('universal')" class="p-4 text-left rounded-xl border border-indigo-500/30 bg-indigo-950/20 hover:bg-indigo-900/30 transition">
-            <div class="font-bold text-sm text-indigo-300">1. MP4 Universal de Alta Calidad</div>
-            <div class="text-xs text-slate-400 mt-1">H.264 High Profile, CRF 20, FastStart y audio normalizado.</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <button onclick="generarComandoFFmpeg('universal')" class="p-3 text-left rounded-xl border border-indigo-500/30 bg-indigo-950/20 hover:bg-indigo-900/30 transition">
+            <div class="font-bold text-xs text-indigo-300">1. MP4 Universal Pro</div>
+            <div class="text-[11px] text-slate-400 mt-1">H.264 High, FastStart, CRF 20.</div>
           </button>
-          <button onclick="generarComandoFFmpeg('lufs')" class="p-4 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
-            <div class="font-bold text-sm text-slate-200">2. Normalizar Audio (-14 LUFS)</div>
-            <div class="text-xs text-slate-400 mt-1">Filtro loudnorm sin recodificar vídeo (-c:v copy).</div>
+          <button onclick="generarComandoFFmpeg('lufs')" class="p-3 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
+            <div class="font-bold text-xs text-slate-200">2. Normalizar Audio</div>
+            <div class="text-[11px] text-slate-400 mt-1">-14 LUFS sin tocar vídeo.</div>
           </button>
-          <button onclick="generarComandoFFmpeg('blur16to9')" class="p-4 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
-            <div class="font-bold text-sm text-slate-200">3. Reencuadre 16:9 a 9:16 con Blur</div>
-            <div class="text-xs text-slate-400 mt-1">Fondo difuminado automático para Shorts/TikTok.</div>
+          <button onclick="generarComandoFFmpeg('blur16to9')" class="p-3 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
+            <div class="font-bold text-xs text-slate-200">3. Reencuadre Blur 9:16</div>
+            <div class="text-[11px] text-slate-400 mt-1">Fondo difuminado automático.</div>
+          </button>
+          <button onclick="generarComandoFFmpeg('splitstack')" class="p-3 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
+            <div class="font-bold text-xs text-cyan-300">4. Split-Stack 9:16</div>
+            <div class="text-[11px] text-slate-400 mt-1">Pantalla dividida 100% full.</div>
+          </button>
+          <button onclick="generarComandoFFmpeg('pandinamico')" class="p-3 text-left rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800/60 transition">
+            <div class="font-bold text-xs text-amber-300">5. Pan & Scan Dinámico</div>
+            <div class="text-[11px] text-slate-400 mt-1">Travelling suave full screen.</div>
           </button>
         </div>
 
@@ -813,7 +821,25 @@
  [bg][fg]overlay=(W-w)/2:(H-h)/2" \\
 -c:v libx264 -preset fast -crf 21 -pix_fmt yuv420p -movflags +faststart \\
 -c:a aac -b:a 256k \\
-output_blurred_9_16.mp4`
+output_blurred_9_16.mp4`,
+
+      splitstack: `ffmpeg -i input_16_9.mp4 -filter_complex \\
+"[0:v]scale=3414:1920:flags=lanczos,crop=1080:960:1750:50[top]; \\
+ [0:v]scale=3414:1920:flags=lanczos,crop=1080:960:500:500[bot]; \\
+ [top][bot]vstack,drawbox=y=959:color=white@0.6:width=1080:height=2:t=fill[v]; \\
+ [0:a]loudnorm=I=-14.0:TP=-1.0:LRA=7.0[a]" \\
+-map "[v]" -map "[a]" \\
+-c:v libx264 -profile:v high -level 4.2 -preset fast -crf 20 -pix_fmt yuv420p \\
+-c:a aac -b:a 256k -ar 48000 -movflags +faststart \\
+output_split_stack_9_16.mp4`,
+
+      pandinamico: `ffmpeg -i input_16_9.mp4 -filter_complex \\
+"[0:v]scale=3414:1920:flags=lanczos,crop=w=1080:h=1920:x='if(lt(t,2.5),500,if(lt(t,5.5),500+1250*(t-2.5)/3.0,if(lt(t,20.5),1750,if(lt(t,23.0),1750-1250*(t-20.5)/2.5,if(lt(t,27.5),500,if(lt(t,30.5),500+1250*(t-27.5)/3.0,1750))))))':y=0,unsharp=5:5:0.6:5:5:0.0[v]; \\
+ [0:a]loudnorm=I=-14.0:TP=-1.0:LRA=7.0[a]" \\
+-map "[v]" -map "[a]" \\
+-c:v libx264 -profile:v high -level 4.2 -preset fast -crf 20 -pix_fmt yuv420p \\
+-c:a aac -b:a 256k -ar 48000 -movflags +faststart \\
+output_pan_dinamico_9_16.mp4`
     };
 
     function generarComandoFFmpeg(tipo) {
